@@ -1,0 +1,16 @@
+# Excel Sales Dashboard
+
+📊 **وصف المشروع:**  
+لوحة تحليلات المبيعات من ملفات Excel باستخدام Python و Streamlit. تعرض تقارير ديناميكية عن المبيعات، القنوات، وأداء المنتجات بشكل رسومي وسهل الفهم.
+
+## 🛠️ الأدوات المستخدمة
+- Python
+- Pandas
+- Streamlit
+- Matplotlib / Seaborn
+- openpyxl
+
+## 🚀 كيفية التشغيل محليًا
+1. تثبيت المتطلبات:
+```bash
+pip install -r requirements.txt
