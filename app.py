@@ -2,34 +2,38 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# عنوان التطبيق
-st.title("Excel Sales Analysis Dashboard")
+st.title("📊 Excel Sales Analysis Dashboard")
 
-# قراءة ملف Excel
-df = pd.read_excel("sales_data.xlsx")
+# رفع الملف
+uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx"])
 
-# حساب إجمالي المبيعات
-df["Total"] = df["Quantity"] * df["Price"]
-total_sales = df["Total"].sum()
+if uploaded_file is not None:
+    df = pd.read_excel(uploaded_file)
 
-# أعلى منتج
-top_product = df.groupby("Product")["Total"].sum().idxmax()
+    # حساب الإجمالي
+    df["Total"] = df["Quantity"] * df["Price"]
 
-# أفضل مدينة
-top_city = df.groupby("City")["Total"].sum().idxmax()
+    total_sales = df["Total"].sum()
+    top_product = df.groupby("Product")["Total"].sum().idxmax()
+    top_city = df.groupby("City")["Total"].sum().idxmax()
 
-# عرض النتائج
-st.subheader("Key Metrics")
-st.write("Total Sales:", total_sales)
-st.write("Top Product:", top_product)
-st.write("Best City:", top_city)
+    # عرض KPIs بشكل احترافي
+    st.subheader("Key Metrics")
+    col1, col2, col3 = st.columns(3)
 
-# رسم بياني للمبيعات حسب المنتج
-st.subheader("Sales by Product")
+    col1.metric("Total Sales", f"{total_sales:,.0f}")
+    col2.metric("Top Product", top_product)
+    col3.metric("Top City", top_city)
 
-sales_by_product = df.groupby("Product")["Total"].sum()
+    # الرسم البياني
+    st.subheader("Sales by Product")
 
-fig, ax = plt.subplots()
-sales_by_product.plot(kind="bar", ax=ax)
+    sales_by_product = df.groupby("Product")["Total"].sum()
 
-st.pyplot(fig)
+    fig, ax = plt.subplots()
+    sales_by_product.plot(kind="bar", ax=ax)
+    st.pyplot(fig)
+
+    # عرض البيانات
+    st.subheader("Data Preview")
+    st.dataframe(df)
